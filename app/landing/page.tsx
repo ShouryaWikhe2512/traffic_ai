@@ -21,21 +21,22 @@ export default function IndianTrafficControl() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-gray-100 to-gray-200 relative  ">
+    <div className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-300 to-gray-300 relative  ">
       <Navbar />
       {/* Hero Section */}
       <section className="min-h-screen flex items-center px-6 lg:px-16 py-20 pt-32 relative z-10">
         {/* Background GIF - Sticks with Hero Section */}
-        <div
-          className="absolute top-0 right-0 bottom-0 z-0 opacity-12"
-          style={{
-            width: "70%",
-            backgroundImage: 'url("/0cf2ae81976547.5d0ffcf64b30f.gif")',
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
+        {/* Background Video - Sticks with Hero Section */}
+        <div className="absolute top-0 right-0 bottom-0 z-10 opacity-50 w-full lg:w-[70%] overflow-hidden">
+          <video
+            src="/intovehivle.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-60% h-full object-cover"
+          />
+        </div>
 
         <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
           {/* LEFT: Text Content */}
