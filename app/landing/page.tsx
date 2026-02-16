@@ -2,7 +2,10 @@
 
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import Navbar from "../components/navbar";
+import Navbar from "../../components/navbar";
+import USPSection from "../../components/usp";
+import AboutPage from "../../components/gaps";
+import AboutSection from "../../components/about_us";
 
 export default function IndianTrafficControl() {
   useEffect(() => {
@@ -21,13 +24,13 @@ export default function IndianTrafficControl() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-300 to-gray-300 relative  ">
+    <div className="min-h-screen bg-gradient-to-br from-gray-300  to-gray-300 relative  ">
       <Navbar />
       {/* Hero Section */}
       <section className="min-h-screen flex items-center px-6 lg:px-16 py-20 pt-32 relative z-10">
         {/* Background GIF - Sticks with Hero Section */}
         {/* Background Video - Sticks with Hero Section */}
-        <div className="absolute top-0 right-0 bottom-0 z-10 opacity-50 w-full lg:w-[70%] overflow-hidden">
+        <div className="absolute top-0 right-0 bottom-0 z-10 opacity-100 w-full lg:w-[70%] overflow-hidden">
           <video
             src="/intovehivle.mp4"
             autoPlay
@@ -118,69 +121,10 @@ export default function IndianTrafficControl() {
       </section>
 
       {/* Features Section */}
-      <section className="px-6 lg:px-16 py-20 bg-white relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl font-bold text-center text-gray-900 mb-12"
-            style={{ fontFamily: "'Manrope', sans-serif" }}
-          >
-            Built for Indian Roads
-          </motion.h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: "🚦",
-                title: "Smart Signals",
-                desc: "Adaptive traffic lights respond to real-time density at intersections",
-              },
-              {
-                icon: "🚑",
-                title: "Emergency Priority",
-                desc: "Green corridor activated in 6 seconds for ambulances and fire trucks",
-              },
-              {
-                icon: "🎆",
-                title: "Festival Traffic Handling",
-                desc: "Special algorithms for Diwali, Holi, Ganesh Chaturthi crowds",
-              },
-              {
-                icon: "🇮🇳",
-                title: "Indian Road Adaptation",
-                desc: "AI trained on mixed traffic patterns: autos, bikes, buses, cows",
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{
-                  scale: 1.03,
-                  boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
-                }}
-                className="bg-gray-50 rounded-2xl p-6 border border-gray-200 transition-all duration-300"
-              >
-                <div className="text-5xl mb-4">{feature.icon}</div>
-                <h3
-                  className="text-xl font-bold mb-2 text-gray-900"
-                  style={{ fontFamily: "'Manrope', sans-serif" }}
-                >
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {feature.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <AboutSection />
+      <AboutPage />
+      <USPSection />
 
       {/* Google Fonts */}
       <style jsx global>{`
