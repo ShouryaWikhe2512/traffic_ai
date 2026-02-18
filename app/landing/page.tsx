@@ -6,6 +6,7 @@ import Navbar from "../../components/navbar";
 import USPSection from "../../components/usp";
 import AboutPage from "../../components/gaps";
 import AboutSection from "../../components/about_us";
+import TrafficAnalysisDashboard from "@/components/traffic_analysis_dashboard";
 
 export default function IndianTrafficControl() {
   useEffect(() => {
@@ -121,10 +122,10 @@ export default function IndianTrafficControl() {
       </section>
 
       {/* Features Section */}
-
       <AboutSection />
       <AboutPage />
       <USPSection />
+      <TrafficAnalysisDashboard />
 
       {/* Google Fonts */}
       <style jsx global>{`
