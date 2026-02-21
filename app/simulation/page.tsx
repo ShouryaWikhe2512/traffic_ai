@@ -30,6 +30,8 @@ export default function SimulationPage() {
   });
   const [showTrace, setShowTrace] = useState(true);
   const [liveEmergency, setLiveEmergency] = useState<{ dir: string; type: string } | null>(null);
+  const [isYellow, setIsYellow] = useState(false);
+  const YELLOW_TIME = 3;
   
   // URL MEMOIZATION TO PREVENT LOOPING/RESETS
   const videoUrls = React.useMemo(() => ({
@@ -117,6 +119,7 @@ export default function SimulationPage() {
       setActivePhase(null);
       setRemainingTime(0);
       setFrozenTelemetry({});
+      setIsYellow(false);
       return;
     }
 
@@ -138,16 +141,24 @@ export default function SimulationPage() {
         setRemainingTime(prev => prev - 1);
       }, 1000);
     } else if (isProcessing && remainingTime <= 0 && activePhase && prioritySequence.length > 0) {
-      const currentIndex = prioritySequence.indexOf(activePhase);
-      const nextIndex = (currentIndex + 1) % 4;
-      const nextPhase = prioritySequence[nextIndex];
-      
-      setActivePhase(nextPhase);
-      const nextSplit = data?.signal_plan?.splits?.[nextPhase] || 20;
-      setRemainingTime(nextSplit);
-      
-      if (data) {
-        setFrozenTelemetry(prev => ({ ...prev, [nextPhase]: data.intersection_telemetry[nextPhase] }));
+      if (!isYellow) {
+        // Switch to Yellow phase
+        setIsYellow(true);
+        setRemainingTime(YELLOW_TIME);
+      } else {
+        // Yellow phase finished, switch to Green for next phase
+        setIsYellow(false);
+        const currentIndex = prioritySequence.indexOf(activePhase);
+        const nextIndex = (currentIndex + 1) % 4;
+        const nextPhase = prioritySequence[nextIndex];
+        
+        setActivePhase(nextPhase);
+        const nextSplit = data?.signal_plan?.splits?.[nextPhase] || 20;
+        setRemainingTime(nextSplit);
+        
+        if (data) {
+          setFrozenTelemetry(prev => ({ ...prev, [nextPhase]: data.intersection_telemetry[nextPhase] }));
+        }
       }
     }
     return () => clearInterval(timer);
@@ -315,11 +326,23 @@ export default function SimulationPage() {
                         
                         {/* MICRO SIGNALS - SYNCED TO SEQUENCER */}
                         <div className="flex items-center gap-3">
-                           <div className="flex gap-1.5 p-1 bg-gray-900 rounded-sm border border-white/5 shadow-inner">
-                              <div className={`w-2 h-2 rounded-full ${activePhase === dir ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]' : 'bg-gray-800'}`} />
-                              <div className={`w-2 h-2 rounded-full ${activePhase !== dir ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]' : 'bg-gray-800'}`} />
+                           <div className="flex gap-2 p-1.5 bg-gray-900 rounded-sm border border-white/5 shadow-inner transition-all duration-300">
+                              <div className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${activePhase === dir && !isYellow ? 'bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.9)] scale-110' : 'bg-gray-800'}`} title="Green" />
+                              <div className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${activePhase === dir && isYellow ? 'bg-yellow-400 shadow-[0_0_12px_rgba(250,204,21,0.9)] scale-110' : 'bg-gray-800'}`} title="Yellow" />
+                              <div className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${activePhase !== dir ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.9)] scale-110' : 'bg-gray-800'}`} title="Red" />
                            </div>
-                           <div className="h-4 w-px bg-gray-200" />
+                           
+                           {/* PROMINENT COUNTDOWN TIMER */}
+                           {activePhase === dir && (
+                             <div className="flex items-center px-2 py-1 bg-gray-50 border border-gray-100 rounded-sm animate-in fade-in zoom-in duration-300">
+                               <Timer className={`w-3.5 h-3.5 mr-1.5 ${isYellow ? 'text-yellow-600' : 'text-green-600'}`} />
+                               <span className={`text-sm font-black font-mono tracking-tighter ${isYellow ? 'text-yellow-600' : 'text-green-600'}`}>
+                                 {remainingTime < 10 ? `0${remainingTime}` : remainingTime}s
+                               </span>
+                             </div>
+                           )}
+
+                           <div className="h-4 w-px bg-gray-200 ml-1" />
                            <span className="text-[9px] font-black text-gray-400 uppercase tracking-tight font-mono">ID: {dir[0].toUpperCase()}</span>
                         </div>
                      </div>
