@@ -8,6 +8,7 @@ import { PuneCongestedArterials } from "@/components/pune_dashboard/congested-ar
 import { PuneHotspotsMap } from "@/components/pune_dashboard/hotspots-map";
 import { PuneDailyTrends } from "@/components/pune_dashboard/daily-trends";
 import { PuneHourlyTrends } from "@/components/pune_dashboard/hourly-trends";
+import { Sidebar } from "../ui/sidebar";
 
 export function PuneDashboard() {
   const [location, setLocation] = useState("Pune Metro Region");
@@ -64,4 +65,3 @@ export function PuneDashboard() {
     </div>
   );
 }
-

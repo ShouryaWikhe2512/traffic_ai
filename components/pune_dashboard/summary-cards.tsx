@@ -55,7 +55,7 @@ export function PuneSummaryCards() {
             key={card.id}
             className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/90 px-4 py-4 shadow-[0_18px_45px_rgba(15,23,42,0.08)] backdrop-blur dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-[0_18px_45px_rgba(15,23,42,0.6)]"
           >
-            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-400 via-orange-400 to-emerald-500" />
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r  from-orange-400 via-white to-emerald-500" />
 
             <div className="flex items-start justify-between gap-3 pt-2">
               <div className="space-y-2">
@@ -101,4 +101,3 @@ export function PuneSummaryCards() {
     </section>
   );
 }
-
