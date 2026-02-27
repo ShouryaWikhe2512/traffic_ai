@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-    const TARGET_URL = "https://unspeakingly-overdogmatical-annita.ngrok-free.dev/data";
+    const TARGET_URL = "http://localhost:8000/data";
 
     try {
         console.log("[PROXY] GETting Mobility Data from:", TARGET_URL);

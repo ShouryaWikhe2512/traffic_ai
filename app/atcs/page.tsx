@@ -1,21 +1,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { 
-  ShieldCheck, 
-  Users, 
-  Navigation, 
-  Activity, 
-  Loader2, 
-  Globe, 
-  Cpu, 
-  ExternalLink, 
-  Map as MapIcon, 
+import {
+  ShieldCheck,
+  Users,
+  Navigation,
+  Activity,
+  Loader2,
+  Globe,
+  Cpu,
+  ExternalLink,
+  Map as MapIcon,
   CheckCircle2,
   History,
   LayoutDashboard,
   Info,
-  ChevronRight
+  ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -50,7 +50,7 @@ export default function ATCSDashboard() {
       // Using the robust /api/data proxy with GET method as per backend documentation
       const response = await fetch("/api/data", {
         method: "GET",
-        cache: 'no-store'
+        cache: "no-store",
       });
       if (!response.ok) {
         throw new Error(`Backend returned ${response.status}`);
@@ -60,15 +60,30 @@ export default function ATCSDashboard() {
 
       // Map the input and output arrays into the Unified Schema Format
       // Robustly handle different key casings and pluralization (Input/input/inputs)
-      const inputArr = raw.Input || raw.input || raw.Inputs || raw.inputs || (Array.isArray(raw) ? raw : []);
-      const outputArr = raw.Output || raw.output || raw.Outputs || raw.outputs || (Array.isArray(raw) ? raw : []);
+      const inputArr =
+        raw.Input ||
+        raw.input ||
+        raw.Inputs ||
+        raw.inputs ||
+        (Array.isArray(raw) ? raw : []);
+      const outputArr =
+        raw.Output ||
+        raw.output ||
+        raw.Outputs ||
+        raw.outputs ||
+        (Array.isArray(raw) ? raw : []);
 
       const unified: ATCSDecisionSchema[] = inputArr.map(
         (item: any, idx: number) => {
           // If the item itself has input/output properties (e.g. from map_to_schema), use them
           const inputData = item.input || item;
-          const outputData = outputArr[idx]?.output || outputArr[idx] || outputArr[0]?.output || outputArr[0] || {};
-          
+          const outputData =
+            outputArr[idx]?.output ||
+            outputArr[idx] ||
+            outputArr[0]?.output ||
+            outputArr[0] ||
+            {};
+
           return {
             input: inputData,
             output: outputData,
@@ -203,15 +218,17 @@ export default function ATCSDashboard() {
               </button>
               <button className="flex items-center gap-3 bg-gray-900 text-white px-6 py-2.5 rounded-full shadow-lg shadow-gray-200 hover:bg-gray-800 transition-all font-black text-xs uppercase tracking-widest group">
                 <LayoutDashboard className="w-4 h-4 text-orange-500 group-hover:rotate-12 transition-transform" />
-                Frontend v1.0
+                S.H.I.F.T
               </button>
             </div>
-            <Link 
+            <Link
               href="/atcs_output"
               className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 border border-gray-100 px-4 py-2 rounded-sm transition-all group"
             >
               <History className="w-4 h-4 text-orange-600 group-hover:scale-110 transition-transform" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-gray-600">Decision Logs</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-gray-600">
+                Decision Logs
+              </span>
             </Link>
           </div>
         </div>
